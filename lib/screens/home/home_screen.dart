@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:news_app/model/article.dart';
 import 'package:news_app/provider/news_provider.dart';
 import 'package:news_app/screens/home/provider/home_provider.dart';
 import 'package:provider/provider.dart';
+import '../../shared/article_tile.dart';
 
 import '../../global/resources/colors.dart';
-import '../../global/resources/icons.dart';
 import '../../global/size_config.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,7 +27,9 @@ class _HomeScreenState extends State<HomeScreen>
     Provider.of<HomeProvider>(context, listen: false)
         .init(context, TabController(length: 2, vsync: this));
 
-    Provider.of<NewsProvider>(context, listen: false).loadArticles();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<NewsProvider>(context, listen: false).loadArticles();
+    });
   }
 
   @override
@@ -91,11 +94,24 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       );
 
-  _tabBarView(HomeProvider homeProvider) => TabBarView(
-        controller: homeProvider.tabController,
-        children: [
-          Placeholder(),
-          Placeholder(),
-        ],
+  _tabBarView(HomeProvider homeProvider) => Consumer<NewsProvider>(
+        builder: (context, newsProvider, child) => TabBarView(
+          controller: homeProvider.tabController,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.widthMultiplier * 2),
+              child: ListView.builder(
+                itemCount: newsProvider.articles.length,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  Article _article = newsProvider.articles[index];
+                  return ArticleTile(article: _article);
+                },
+              ),
+            ),
+            Placeholder(),
+          ],
+        ),
       );
 }

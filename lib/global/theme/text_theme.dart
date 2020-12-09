@@ -18,10 +18,7 @@ final kTextTheme = TextTheme(
   button: buttonTextStyle,
   caption: captionTextStyle,
   overline: overlineTextStyle,
-).apply(
-    bodyColor: KBlackColor,
-    displayColor: KBlackColor,
-    decorationColor: KBlackColor);
+);
 
 final TextStyle overlineTextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.ten,
@@ -33,6 +30,7 @@ final TextStyle captionTextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.twelve,
   fontWeight: FontWeight.w400,
   letterSpacing: 0.4,
+  color: KBoulderGreyColor,
 );
 
 final TextStyle buttonTextStyle = GoogleFonts.montserrat(
@@ -54,9 +52,10 @@ final TextStyle bodyText1TextStyle = GoogleFonts.montserrat(
 );
 
 final TextStyle subtitle2TextStyle = GoogleFonts.montserrat(
-    fontSize: SizeConfig.fourteen,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.1);
+  fontSize: SizeConfig.fourteen,
+  fontWeight: FontWeight.w500,
+  letterSpacing: 0.1,
+);
 
 final TextStyle subtitle1TextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.sixteen,

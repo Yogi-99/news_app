@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:news_app/model/source.dart';
+import '../global/constants/months.dart';
+
 class Article {
   final String author;
   final String title;
@@ -8,6 +11,7 @@ class Article {
   final String urlToImage;
   final String publishedAt;
   final String content;
+  final Source source;
 
   Article({
     this.author,
@@ -17,17 +21,18 @@ class Article {
     this.urlToImage,
     this.publishedAt,
     this.content,
+    this.source,
   });
 
-  Article copyWith({
-    String author,
-    String title,
-    String description,
-    String url,
-    String urlToImage,
-    String publishedAt,
-    String content,
-  }) {
+  Article copyWith(
+      {String author,
+      String title,
+      String description,
+      String url,
+      String urlToImage,
+      String publishedAt,
+      String content,
+      Source source}) {
     return Article(
       author: author ?? this.author,
       title: title ?? this.title,
@@ -36,6 +41,7 @@ class Article {
       urlToImage: urlToImage ?? this.urlToImage,
       publishedAt: publishedAt ?? this.publishedAt,
       content: content ?? this.content,
+      source: source ?? this.source,
     );
   }
 
@@ -48,6 +54,7 @@ class Article {
       'urlToImage': urlToImage,
       'publishedAt': publishedAt,
       'content': content,
+      'source': source.toJson()
     };
   }
 
@@ -62,10 +69,15 @@ class Article {
       urlToImage: map['urlToImage'],
       publishedAt: map['publishedAt'],
       content: map['content'],
+      source: Source.fromJson(map['source']),
     );
   }
 
   String toJson() => json.encode(toMap());
+
+  DateTime get dateTime => DateTime.parse(publishedAt);
+
+  String get formattedDateTime => '${KMonths[dateTime.month]} ${dateTime.day}';
 
   @override
   String toString() {
