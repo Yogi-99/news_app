@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:news_app/model/article.dart';
-import 'package:news_app/provider/news_provider.dart';
+import 'package:news_app/provider/article_provider.dart';
 import 'package:news_app/screens/home/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 import '../../shared/article_tile.dart';
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen>
         .init(context, TabController(length: 2, vsync: this));
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<NewsProvider>(context, listen: false).loadArticles();
+      Provider.of<ArticleProvider>(context, listen: false).loadArticles();
     });
   }
 
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       );
 
-  _tabBarView(HomeProvider homeProvider) => Consumer<NewsProvider>(
+  _tabBarView(HomeProvider homeProvider) => Consumer<ArticleProvider>(
         builder: (context, newsProvider, child) => TabBarView(
           controller: homeProvider.tabController,
           children: [

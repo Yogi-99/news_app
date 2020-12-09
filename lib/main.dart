@@ -6,7 +6,7 @@ import 'global/route_generator.dart';
 import 'global/size_config.dart';
 import 'global/theme/app_bar_theme.dart';
 import 'global/theme/text_theme.dart';
-import 'provider/news_provider.dart';
+import 'provider/article_provider.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/home/provider/home_provider.dart';
 
@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
               ChangeNotifierProvider<HomeProvider>(
                 create: (context) => HomeProvider(),
               ),
-              ChangeNotifierProvider<NewsProvider>(
-                create: (context) => NewsProvider(),
+              ChangeNotifierProvider<ArticleProvider>(
+                create: (context) => ArticleProvider(),
               ),
             ],
             child: MaterialApp(

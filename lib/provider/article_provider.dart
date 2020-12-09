@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:news_app/global/custom_response.dart';
 import 'package:news_app/global/ui_state.dart';
 import 'package:news_app/model/article.dart';
-import 'package:news_app/services/news_service.dart';
+import 'package:news_app/services/article_service.dart';
 import 'package:news_app/shared/show_message.dart';
 
-class NewsProvider extends ChangeNotifier {
-  final NewsService _newsService = NewsService();
+class ArticleProvider extends ChangeNotifier {
+  final ArticleService _articleService = ArticleService();
 
   List<Article> _articles;
   List<Article> get articles => _articles ?? [];
-  void setArticles(List<Article> values) {
+  void _setArticles(List<Article> values) {
     _articles = values;
     notifyListeners();
   }
@@ -18,7 +18,7 @@ class NewsProvider extends ChangeNotifier {
   Future<void> loadArticles() async {
     _changeUiStateToLoading();
     CustomResponse<List<Article>> response =
-        await _newsService.getTopHeadlines();
+        await _articleService.getTopHeadlines();
 
     if (response.status == Status.ERROR) {
       _changeUiStateToIdle();
@@ -26,7 +26,7 @@ class NewsProvider extends ChangeNotifier {
       return;
     }
 
-    setArticles(response.data);
+    _setArticles(response.data);
     _changeUiStateToIdle();
     return;
   }
@@ -38,6 +38,27 @@ class NewsProvider extends ChangeNotifier {
   void onSearchTermChanged(String value) {
     _searchTerm = value;
     notifyListeners();
+    _searchArticles();
+  }
+
+  void _searchArticles() async {
+    if (searchTerm.trim().isEmpty) {
+      loadArticles();
+      return;
+    }
+    _changeUiStateToLoading();
+
+    CustomResponse<List<Article>> response =
+        await _articleService.searchArticles(searchTerm);
+
+    if (response.status == Status.ERROR) {
+      ShowMessage.show(response.message);
+      _changeUiStateToIdle();
+      return;
+    }
+    _setArticles(response.data);
+    _changeUiStateToIdle();
+    return;
   }
 
   // *************************** Ui State ********************************
