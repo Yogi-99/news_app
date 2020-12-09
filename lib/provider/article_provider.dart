@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/global/custom_response.dart';
 import 'package:news_app/global/ui_state.dart';
 import 'package:news_app/model/article.dart';
+import 'package:news_app/screens/article_detail/article_detail_screen.dart';
 import 'package:news_app/services/article_service.dart';
 import 'package:news_app/shared/show_message.dart';
 
@@ -29,6 +30,14 @@ class ArticleProvider extends ChangeNotifier {
     _setArticles(response.data);
     _changeUiStateToIdle();
     return;
+  }
+
+  Article _selectedArticle;
+  Article get selectedArticle => _selectedArticle;
+  void selectArticle(Article value, BuildContext context) {
+    _selectedArticle = value;
+    Navigator.of(context).pushNamed(ArticleDetailScreen.id);
+    notifyListeners();
   }
 
   // ********************** Search Bar ******************************

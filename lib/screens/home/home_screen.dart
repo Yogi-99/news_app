@@ -94,23 +94,25 @@ class _HomeScreenState extends State<HomeScreen>
       );
 
   _tabBarView(HomeProvider homeProvider) => Consumer<ArticleProvider>(
-        builder: (context, newsProvider, child) => TabBarView(
+        builder: (context, articleProvider, child) => TabBarView(
           controller: homeProvider.tabController,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.widthMultiplier * 2),
-              child: ListView.builder(
-                itemCount: newsProvider.articles.length,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  Article _article = newsProvider.articles[index];
-                  return ArticleTile(article: _article);
-                },
-              ),
-            ),
+            _topHeadlines(articleProvider),
             Placeholder(),
           ],
+        ),
+      );
+
+  _topHeadlines(ArticleProvider articleProvider) => Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: SizeConfig.widthMultiplier * 2),
+        child: ListView.builder(
+          itemCount: articleProvider.articles.length,
+          physics: BouncingScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            Article _article = articleProvider.articles[index];
+            return ArticleTile(article: _article);
+          },
         ),
       );
 }
