@@ -37,18 +37,21 @@ final TextStyle buttonTextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.fourteen,
   fontWeight: FontWeight.w500,
   letterSpacing: 1.25,
+  color: KBlackColor,
 );
 
 final TextStyle bodyText2TextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.fourteen,
   fontWeight: FontWeight.w400,
   letterSpacing: 0.25,
+  color: KBlackColor,
 );
 
 final TextStyle bodyText1TextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.sixteen,
   fontWeight: FontWeight.w400,
   letterSpacing: 0.5,
+  color: KBlackColor,
 );
 
 final TextStyle subtitle2TextStyle = GoogleFonts.montserrat(
@@ -67,17 +70,21 @@ final TextStyle headline6TextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.twenty,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.15,
+  color: KBlackColor,
 );
 
 final TextStyle headline5TextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.twentyFour,
   fontWeight: FontWeight.w400,
+  color: KBlackColor,
 );
 
 final TextStyle headline4TextStyle = GoogleFonts.montserrat(
-    fontSize: SizeConfig.thirtyFour,
-    fontWeight: FontWeight.w400,
-    letterSpacing: 0.25);
+  fontSize: SizeConfig.thirtyFour,
+  fontWeight: FontWeight.w400,
+  letterSpacing: 0.25,
+  color: KBlackColor,
+);
 
 final TextStyle headline3TextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.fortyEight,
@@ -86,6 +93,7 @@ final TextStyle headline3TextStyle = GoogleFonts.montserrat(
 
 final TextStyle headline2TextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.sixtyOne,
+  color: KBlackColor,
   fontWeight: FontWeight.w300,
   letterSpacing: -0.5,
 );
@@ -94,4 +102,5 @@ final TextStyle headline1TextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.ninetySeven,
   fontWeight: FontWeight.w300,
   letterSpacing: -1.5,
+  color: KBlackColor,
 );

@@ -5,6 +5,7 @@ import 'package:news_app/provider/news_provider.dart';
 import 'package:news_app/screens/home/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 import '../../shared/article_tile.dart';
+import '../../shared/search_bar.dart';
 
 import '../../global/resources/colors.dart';
 import '../../global/size_config.dart';
@@ -58,10 +59,8 @@ class _HomeScreenState extends State<HomeScreen>
     HomeProvider homeProvider,
   ) =>
       SliverAppBar(
-        title: Text(
-          'News App',
-          style: _textTheme.headline5,
-        ),
+        title: SearchBar(),
+        actions: [],
         pinned: true,
         floating: true,
         snap: true,

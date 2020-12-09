@@ -31,6 +31,15 @@ class NewsProvider extends ChangeNotifier {
     return;
   }
 
+  // ********************** Search Bar ******************************
+
+  String _searchTerm;
+  String get searchTerm => _searchTerm ?? '';
+  void onSearchTermChanged(String value) {
+    _searchTerm = value;
+    notifyListeners();
+  }
+
   // *************************** Ui State ********************************
 
   UiState _uiState;
