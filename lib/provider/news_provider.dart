@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/global/ui_state.dart';
+import 'package:news_app/global/custom_response.dart';
+import 'package:news_app/model/article.dart';
+import 'package:news_app/services/news_service.dart';
 
 class NewsProvider extends ChangeNotifier {
-  BuildContext _context;
+  final NewsService _newsService = NewsService();
 
-  init(BuildContext context) {
-    _context = context;
-  }
-
-  // *************************** Ui State ********************************
-  UiState _uiState;
-  UiState get uiState => _uiState ?? UiState.idle;
-
-  _changeUiStateToLoading() {
-    _uiState = UiState.loading;
+  List<Article> _articles;
+  List<Article> get articled => _articles ?? [];
+  void setArticles(List<Article> values) {
+    _articles = values;
     notifyListeners();
   }
 
-  _changeUiStateToIdle() {
-    _uiState = UiState.idle;
-    notifyListeners();
+  loadArticles() async {
+    CustomResponse response = await _newsService.getTopHeadlines();
   }
 }

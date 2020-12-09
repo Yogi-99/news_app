@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:news_app/provider/news_provider.dart';
 import 'package:news_app/screens/home/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen>
 
     Provider.of<HomeProvider>(context, listen: false)
         .init(context, TabController(length: 2, vsync: this));
+
+    Provider.of<NewsProvider>(context, listen: false).loadArticles();
   }
 
   @override

@@ -19,8 +19,15 @@ class MyApp extends StatelessWidget {
       builder: (context, constraints) => OrientationBuilder(
         builder: (context, orientation) {
           SizeConfig.init(constraints, orientation);
-          return ChangeNotifierProvider<HomeProvider>(
-            create: (context) => HomeProvider(),
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<HomeProvider>(
+                create: (context) => HomeProvider(),
+              ),
+              ChangeNotifierProvider<NewsProvider>(
+                create: (context) => NewsProvider(),
+              ),
+            ],
             child: MaterialApp(
               title: 'News App',
               theme: ThemeData.light()
