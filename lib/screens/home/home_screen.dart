@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen>
           controller: homeProvider.tabController,
           children: [
             _topHeadlines(articleProvider),
-            _explore(),
+            _explore(articleProvider),
           ],
         ),
       );
@@ -109,14 +109,25 @@ class _HomeScreenState extends State<HomeScreen>
         padding:
             EdgeInsets.symmetric(horizontal: SizeConfig.widthMultiplier * 2),
         child: ListView.builder(
-          itemCount: articleProvider.articles.length,
+          itemCount: articleProvider.topHeadlineArticles.length,
           physics: BouncingScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
-            Article _article = articleProvider.articles[index];
+            Article _article = articleProvider.topHeadlineArticles[index];
             return ArticleTile(article: _article);
           },
         ),
       );
 
-  _explore() => Placeholder();
+  _explore(ArticleProvider articleProvider) => Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: SizeConfig.widthMultiplier * 2),
+        child: ListView.builder(
+          itemCount: articleProvider.exploreArticles.length,
+          physics: BouncingScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            Article _article = articleProvider.exploreArticles[index];
+            return ArticleTile(article: _article);
+          },
+        ),
+      );
 }

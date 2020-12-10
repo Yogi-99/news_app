@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/global/resources/colors.dart';
 
 class CustomNetworkImage extends StatelessWidget {
   final String imageUrl;
@@ -15,7 +16,9 @@ class CustomNetworkImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageUrl,
       fit: BoxFit.cover,
-      errorWidget: (context, url, error) => Container(),
+      errorWidget: (context, url, error) => Container(
+        color: KGreyColor,
+      ),
     );
   }
 }

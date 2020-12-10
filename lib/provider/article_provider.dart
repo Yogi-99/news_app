@@ -14,19 +14,31 @@ class ArticleProvider extends ChangeNotifier {
   final AuthService _authService = AuthService();
   final SourceService _sourceService = SourceService();
 
-  init() {
-    loadArticles();
-    getAllSources();
+  init() async {
+    _loadTopHeadlineArticles();
+    await _getAllSources();
+    _loadExploreArticles();
   }
 
-  List<Article> _articles;
-  List<Article> get articles => _articles ?? [];
-  void _setArticles(List<Article> values) {
-    _articles = values;
+  Article _selectedArticle;
+  Article get selectedArticle => _selectedArticle;
+  void selectArticle(Article value, BuildContext context) {
+    _selectedArticle = value;
+    _getRandomAuthorImage();
+    Navigator.of(context).pushNamed(ArticleDetailScreen.id);
     notifyListeners();
   }
 
-  Future<void> loadArticles() async {
+  // ********************* Top Headlines *********************
+
+  List<Article> _topHeadlinesArticles;
+  List<Article> get topHeadlineArticles => _topHeadlinesArticles ?? [];
+  void _setTopHeadlineArticles(List<Article> values) {
+    _topHeadlinesArticles = values;
+    notifyListeners();
+  }
+
+  Future<void> _loadTopHeadlineArticles() async {
     _changeUiStateToLoading();
     CustomResponse<List<Article>> response =
         await _articleService.getTopHeadlines();
@@ -37,18 +49,34 @@ class ArticleProvider extends ChangeNotifier {
       return;
     }
 
-    _setArticles(response.data);
+    _setTopHeadlineArticles(response.data);
     _changeUiStateToIdle();
     return;
   }
 
-  Article _selectedArticle;
-  Article get selectedArticle => _selectedArticle;
-  void selectArticle(Article value, BuildContext context) {
-    _selectedArticle = value;
-    _getRandomAuthorImage();
-    Navigator.of(context).pushNamed(ArticleDetailScreen.id);
+  // ********************* Explore *********************
+
+  List<Article> _exploreArticles;
+  List<Article> get exploreArticles => _exploreArticles ?? [];
+  void _setExploreArticles(List<Article> values) {
+    _exploreArticles = values;
     notifyListeners();
+  }
+
+  Future<void> _loadExploreArticles() async {
+    _changeUiStateToLoading();
+    CustomResponse<List<Article>> response =
+        await _articleService.getExploreArticles(selectedSource);
+
+    if (response.status == Status.ERROR) {
+      _changeUiStateToIdle();
+      ShowMessage.show(response.message);
+      return;
+    }
+
+    _setExploreArticles(response.data);
+    _changeUiStateToIdle();
+    return;
   }
 
   // *********************** Sources *****************************
@@ -64,10 +92,11 @@ class ArticleProvider extends ChangeNotifier {
   Source get selectedSource => _selectedSource;
   void selectSource(Source value) {
     _selectedSource = value;
+    _loadExploreArticles();
     notifyListeners();
   }
 
-  Future<void> getAllSources() async {
+  Future<void> _getAllSources() async {
     CustomResponse<List<Source>> response =
         await _sourceService.getAllSources();
 
@@ -93,7 +122,7 @@ class ArticleProvider extends ChangeNotifier {
 
   void _searchArticles() async {
     if (searchTerm.trim().isEmpty) {
-      loadArticles();
+      _loadTopHeadlineArticles();
       return;
     }
     _changeUiStateToLoading();
@@ -106,7 +135,7 @@ class ArticleProvider extends ChangeNotifier {
       _changeUiStateToIdle();
       return;
     }
-    _setArticles(response.data);
+    _setTopHeadlineArticles(response.data);
     _changeUiStateToIdle();
     return;
   }
