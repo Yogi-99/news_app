@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:news_app/model/article.dart';
 import 'package:news_app/provider/article_provider.dart';
 import 'package:news_app/screens/home/provider/home_provider.dart';
+import 'package:news_app/services/author_service.dart';
 import 'package:provider/provider.dart';
 import '../../shared/article_tile.dart';
 import '../../shared/search_bar.dart';
@@ -30,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<ArticleProvider>(context, listen: false).loadArticles();
+
+      AuthService().getRandomAuthorImage();
     });
   }
 
