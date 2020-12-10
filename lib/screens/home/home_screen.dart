@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen>
           controller: homeProvider.tabController,
           children: [
             _topHeadlines(articleProvider),
-            Placeholder(),
+            _explore(),
           ],
         ),
       );
@@ -116,4 +116,6 @@ class _HomeScreenState extends State<HomeScreen>
           },
         ),
       );
+
+  _explore() => Placeholder();
 }
