@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:news_app/global/constants/endpoints.dart';
 import 'package:news_app/global/custom_response.dart';
 import 'package:news_app/global/dio_client.dart';
@@ -47,11 +48,18 @@ class ArticleService {
     }
   }
 
-  Future<CustomResponse<List<Article>>> searchArticles(
-      String searchTerm) async {
+  Future<CustomResponse<List<Article>>> searchArticles(String searchTerm,
+      [Source source]) async {
     try {
+      Map<String, dynamic> queryParameters;
+      if (source == null) {
+        queryParameters = {'q': searchTerm};
+      } else {
+        queryParameters = {'q': searchTerm, 'sources': source.id};
+      }
+
       Response response = await DioClient.dio
-          .get(KTopHeadlinesEndpoint, queryParameters: {'q': searchTerm});
+          .get(KEverythingEndpoint, queryParameters: queryParameters);
 
       return CustomResponse.completed((response.data['articles'] as List)
           .map((e) => Article.fromJson(e))

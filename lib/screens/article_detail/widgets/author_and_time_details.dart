@@ -20,10 +20,7 @@ class AuthorAndTimeDetails extends StatelessWidget {
               children: [
                 articleProvider.authorProfileImage.isEmpty
                     ? CircleAvatar(
-                        child: Expanded(
-                            child: Container(
-                          color: KGreyColor,
-                        )),
+                        backgroundColor: KGreyColor,
                       )
                     : CircleAvatar(
                         backgroundImage:

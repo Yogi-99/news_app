@@ -81,7 +81,8 @@ class SearchBar extends StatelessWidget {
                   hintText: 'Search',
                   border: InputBorder.none,
                 ),
-                onChanged: articleProvider.onSearchTermChanged,
+                onChanged: (String value) =>
+                    articleProvider.onSearchTermChanged(value, context),
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ),

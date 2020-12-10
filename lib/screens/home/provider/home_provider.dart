@@ -18,17 +18,17 @@ class HomeProvider extends ChangeNotifier {
     _tabController = controller..addListener(() => notifyListeners());
   }
 
-  int get _selectedTabIndex => tabController?.index;
+  int get selectedTabIndex => tabController?.index;
 
   String get trendingIcon =>
-      _selectedTabIndex == 0 ? KTrendingSolidIcon : KTrendingIcon;
+      selectedTabIndex == 0 ? KTrendingSolidIcon : KTrendingIcon;
 
   String get exploreIcon =>
-      _selectedTabIndex == 1 ? KExploreSolidIcon : KExploreIcon;
+      selectedTabIndex == 1 ? KExploreSolidIcon : KExploreIcon;
 
   void disposeTabController() {
     _tabController.dispose();
   }
 
-  bool get showDropdownInAppBar => _selectedTabIndex == 1;
+  bool get showDropdownInAppBar => selectedTabIndex == 1;
 }

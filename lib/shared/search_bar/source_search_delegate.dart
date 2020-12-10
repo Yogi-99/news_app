@@ -42,36 +42,67 @@ class SourceSearchDelegate extends SearchDelegate<Source> {
         .toList();
 
     return Consumer<ArticleProvider>(
-      builder: (context, articleProvider, child) => ListView.separated(
-        itemCount: _suggestions.length,
-        separatorBuilder: (context, index) => Divider(),
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(
-              _suggestions[index]?.name,
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: KBlackColor,
-                    fontWeight: FontWeight.w600,
+      builder: (context, articleProvider, child) => ListView(
+        children: _suggestions
+            .map((e) => ListTile(
+                  title: Text(
+                    e?.name,
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: KBlackColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
-            ),
-            subtitle: RichText(
-              text: TextSpan(
-                  style: Theme.of(context).textTheme.caption,
-                  children: [
-                    TextSpan(
-                      text: _suggestions[index].category,
-                    ),
-                    TextSpan(text: ' · '),
-                    TextSpan(text: _suggestions[index].language),
-                  ]),
-            ),
-            onTap: () {
-              articleProvider.selectSource(articleProvider.sources[index]);
-              Navigator.of(context).pop();
-            },
-          );
-        },
+                  subtitle: RichText(
+                    text: TextSpan(
+                        style: Theme.of(context).textTheme.caption,
+                        children: [
+                          TextSpan(
+                            text: e.category,
+                          ),
+                          TextSpan(text: ' · '),
+                          TextSpan(text: e.language),
+                        ]),
+                  ),
+                  onTap: () {
+                    articleProvider.selectSource(e);
+                    Navigator.of(context).pop();
+                  },
+                ))
+            .toList(),
       ),
     );
+
+    // return Consumer<ArticleProvider>(
+    //   builder: (context, articleProvider, child) => ListView.separated(
+    //     itemCount: _suggestions.length,
+    //     separatorBuilder: (context, index) => Divider(),
+    //     itemBuilder: (BuildContext context, int index) {
+    //       return ListTile(
+    //         title: Text(
+    //           e?.name,
+    //           style: Theme.of(context).textTheme.bodyText1.copyWith(
+    //                 color: KBlackColor,
+    //                 fontWeight: FontWeight.w600,
+    //               ),
+    //         ),
+    //         subtitle: RichText(
+    //           text: TextSpan(
+    //               style: Theme.of(context).textTheme.caption,
+    //               children: [
+    //                 TextSpan(
+    //                   text: _suggestions[index].category,
+    //                 ),
+    //                 TextSpan(text: ' · '),
+    //                 TextSpan(text: _suggestions[index].language),
+    //               ]),
+    //         ),
+    //         onTap: () {
+    //           articleProvider.selectSource(articleProvider.sources[index]);
+    //           Navigator.of(context).pop();
+    //         },
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }

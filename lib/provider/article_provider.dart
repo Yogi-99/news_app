@@ -4,10 +4,12 @@ import 'package:news_app/global/ui_state.dart';
 import 'package:news_app/model/article.dart';
 import 'package:news_app/model/source.dart';
 import 'package:news_app/screens/article_detail/article_detail_screen.dart';
+import 'package:news_app/screens/home/provider/home_provider.dart';
 import 'package:news_app/services/article_service.dart';
 import 'package:news_app/services/author_service.dart';
 import 'package:news_app/services/source_service.dart';
 import 'package:news_app/shared/show_message.dart';
+import 'package:provider/provider.dart';
 
 class ArticleProvider extends ChangeNotifier {
   final ArticleService _articleService = ArticleService();
@@ -24,6 +26,7 @@ class ArticleProvider extends ChangeNotifier {
   Article get selectedArticle => _selectedArticle;
   void selectArticle(Article value, BuildContext context) {
     _selectedArticle = value;
+    setAuthorProfileImage(null);
     _getRandomAuthorImage();
     Navigator.of(context).pushNamed(ArticleDetailScreen.id);
     notifyListeners();
@@ -112,13 +115,15 @@ class ArticleProvider extends ChangeNotifier {
 
   String _searchTerm;
   String get searchTerm => _searchTerm ?? '';
-  void onSearchTermChanged(String value) {
+  void onSearchTermChanged(String value, BuildContext context) {
     _searchTerm = value;
     notifyListeners();
-    _searchArticles();
+    Provider.of<HomeProvider>(context, listen: false).selectedTabIndex == 0
+        ? _searchTopHeadlines()
+        : _searchExploreArticles();
   }
 
-  void _searchArticles() async {
+  void _searchTopHeadlines() async {
     if (searchTerm.trim().isEmpty) {
       _loadTopHeadlineArticles();
       return;
@@ -134,6 +139,26 @@ class ArticleProvider extends ChangeNotifier {
       return;
     }
     _setTopHeadlineArticles(response.data);
+    _changeUiStateToIdle();
+    return;
+  }
+
+  void _searchExploreArticles() async {
+    if (searchTerm.trim().isEmpty) {
+      _loadExploreArticles();
+      return;
+    }
+    _changeUiStateToLoading();
+
+    CustomResponse<List<Article>> response =
+        await _articleService.searchArticles(searchTerm, selectedSource);
+
+    if (response.status == Status.ERROR) {
+      ShowMessage.show(response.message);
+      _changeUiStateToIdle();
+      return;
+    }
+    _setExploreArticles(response.data);
     _changeUiStateToIdle();
     return;
   }
