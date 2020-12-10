@@ -28,7 +28,7 @@ class SourceSearchDelegate extends SearchDelegate<Source> {
 
   @override
   Widget buildResults(BuildContext context) {
-    throw Container();
+    return Container();
   }
 
   @override

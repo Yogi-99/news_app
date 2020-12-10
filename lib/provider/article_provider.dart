@@ -124,7 +124,7 @@ class ArticleProvider extends ChangeNotifier {
   }
 
   void _searchTopHeadlines() async {
-    if (searchTerm.trim().isEmpty) {
+    if (searchTerm.trim().isEmpty || searchTerm.trim().length <= 2) {
       _loadTopHeadlineArticles();
       return;
     }
@@ -144,7 +144,7 @@ class ArticleProvider extends ChangeNotifier {
   }
 
   void _searchExploreArticles() async {
-    if (searchTerm.trim().isEmpty) {
+    if (searchTerm.trim().isEmpty || searchTerm.trim().length <= 2) {
       _loadExploreArticles();
       return;
     }
