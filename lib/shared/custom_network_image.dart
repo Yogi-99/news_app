@@ -15,6 +15,7 @@ class CustomNetworkImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageUrl,
       fit: BoxFit.cover,
+      errorWidget: (context, url, error) => Container(),
     );
   }
 }

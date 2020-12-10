@@ -4,10 +4,12 @@ import 'package:news_app/global/ui_state.dart';
 import 'package:news_app/model/article.dart';
 import 'package:news_app/screens/article_detail/article_detail_screen.dart';
 import 'package:news_app/services/article_service.dart';
+import 'package:news_app/services/author_service.dart';
 import 'package:news_app/shared/show_message.dart';
 
 class ArticleProvider extends ChangeNotifier {
   final ArticleService _articleService = ArticleService();
+  final AuthService _authService = AuthService();
 
   List<Article> _articles;
   List<Article> get articles => _articles ?? [];
@@ -36,6 +38,7 @@ class ArticleProvider extends ChangeNotifier {
   Article get selectedArticle => _selectedArticle;
   void selectArticle(Article value, BuildContext context) {
     _selectedArticle = value;
+    _getRandomAuthorImage();
     Navigator.of(context).pushNamed(ArticleDetailScreen.id);
     notifyListeners();
   }
@@ -68,6 +71,23 @@ class ArticleProvider extends ChangeNotifier {
     _setArticles(response.data);
     _changeUiStateToIdle();
     return;
+  }
+
+  // *************************** Random author profile images ********************************
+
+  String _authorProfileImage;
+  String get authorProfileImage => _authorProfileImage ?? '';
+  void setAuthorProfileImage(String value) {
+    _authorProfileImage = value;
+    notifyListeners();
+  }
+
+  Future<void> _getRandomAuthorImage() async {
+    CustomResponse<String> response = await _authService.getRandomAuthorImage();
+
+    if (response.status == Status.ERROR) return;
+
+    setAuthorProfileImage(response.data);
   }
 
   // *************************** Ui State ********************************

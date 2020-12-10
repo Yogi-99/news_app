@@ -13,6 +13,10 @@ class AuthService {
 
       return CustomResponse.completed(image);
     } on DioError catch (dioError) {
+      if (dioError.response.statusCode == 503) {
+        return CustomResponse.error('');
+      }
+
       return CustomResponse.error(dioError.message);
     } catch (e) {
       return CustomResponse.error('Something went wrong');

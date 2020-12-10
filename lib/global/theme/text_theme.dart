@@ -37,7 +37,7 @@ final TextStyle buttonTextStyle = GoogleFonts.montserrat(
   fontSize: SizeConfig.fourteen,
   fontWeight: FontWeight.w500,
   letterSpacing: 1.25,
-  color: KBlackColor,
+  color: KWhiteColor,
 );
 
 final TextStyle bodyText2TextStyle = GoogleFonts.montserrat(

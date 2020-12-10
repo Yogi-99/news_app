@@ -31,8 +31,6 @@ class _HomeScreenState extends State<HomeScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<ArticleProvider>(context, listen: false).loadArticles();
-
-      AuthService().getRandomAuthorImage();
     });
   }
 

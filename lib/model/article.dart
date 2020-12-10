@@ -62,7 +62,7 @@ class Article {
     if (map == null) return null;
 
     return Article(
-      author: map['author'],
+      author: map['author'] ?? 'Anonymous',
       title: map['title'],
       description: map['description'],
       url: map['url'],
@@ -78,6 +78,8 @@ class Article {
   DateTime get dateTime => DateTime.parse(publishedAt);
 
   String get formattedDateTime => '${KMonths[dateTime.month]} ${dateTime.day}';
+  String get formattedDateTimeWithYear =>
+      '${KMonths[dateTime.month]} ${dateTime.day}, ${dateTime.year}';
 
   @override
   String toString() {
