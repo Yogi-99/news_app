@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/screens/web_view_screen/provider/web_view_provider.dart';
+import 'package:news_app/screens/web_view_screen/web_view_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../global/resources/colors.dart';
@@ -54,7 +56,8 @@ class ArticleDetailScreen extends StatelessWidget {
                 flex: 6,
               ),
               ButtonWidget(
-                onClick: () {},
+                onClick: () =>
+                    Navigator.of(context).pushNamed(WebViewScreen.id),
               ),
               SizedBox(
                 height: SizeConfig.textMultiplier,
