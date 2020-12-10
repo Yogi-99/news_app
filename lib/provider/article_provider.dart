@@ -2,14 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:news_app/global/custom_response.dart';
 import 'package:news_app/global/ui_state.dart';
 import 'package:news_app/model/article.dart';
+import 'package:news_app/model/source.dart';
 import 'package:news_app/screens/article_detail/article_detail_screen.dart';
 import 'package:news_app/services/article_service.dart';
 import 'package:news_app/services/author_service.dart';
+import 'package:news_app/services/source_service.dart';
 import 'package:news_app/shared/show_message.dart';
 
 class ArticleProvider extends ChangeNotifier {
   final ArticleService _articleService = ArticleService();
   final AuthService _authService = AuthService();
+  final SourceService _sourceService = SourceService();
+
+  init() {
+    loadArticles();
+    getAllSources();
+  }
 
   List<Article> _articles;
   List<Article> get articles => _articles ?? [];
@@ -41,6 +49,36 @@ class ArticleProvider extends ChangeNotifier {
     _getRandomAuthorImage();
     Navigator.of(context).pushNamed(ArticleDetailScreen.id);
     notifyListeners();
+  }
+
+  // *********************** Sources *****************************
+
+  List<Source> _sources;
+  List<Source> get sources => _sources ?? [];
+  void setSources(List<Source> values) {
+    _sources = values;
+    notifyListeners();
+  }
+
+  Source _selectedSource;
+  Source get selectedSource => _selectedSource;
+  void selectSource(Source value) {
+    _selectedSource = value;
+    notifyListeners();
+  }
+
+  Future<void> getAllSources() async {
+    CustomResponse<List<Source>> response =
+        await _sourceService.getAllSources();
+
+    if (response.status == Status.ERROR) {
+      ShowMessage.show(response.message);
+      return;
+    }
+
+    setSources(response.data);
+    selectSource(sources.first);
+    return;
   }
 
   // ********************** Search Bar ******************************

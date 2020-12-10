@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:news_app/model/article.dart';
-import 'package:news_app/provider/article_provider.dart';
-import 'package:news_app/screens/home/provider/home_provider.dart';
-import 'package:news_app/services/author_service.dart';
 import 'package:provider/provider.dart';
-import '../../shared/article_tile.dart';
-import '../../shared/search_bar.dart';
 
 import '../../global/resources/colors.dart';
 import '../../global/size_config.dart';
+import '../../model/article.dart';
+import '../../provider/article_provider.dart';
+import '../../shared/article_tile.dart';
+import '../../shared/search_bar/search_bar.dart';
+import 'provider/home_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
@@ -30,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen>
         .init(context, TabController(length: 2, vsync: this));
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ArticleProvider>(context, listen: false).loadArticles();
+      Provider.of<ArticleProvider>(context, listen: false).init();
     });
   }
 
@@ -60,7 +59,9 @@ class _HomeScreenState extends State<HomeScreen>
     HomeProvider homeProvider,
   ) =>
       SliverAppBar(
-        title: SearchBar(),
+        title: SearchBar(
+          showDropdown: homeProvider.showDropdownInAppBar,
+        ),
         actions: [],
         pinned: true,
         floating: true,

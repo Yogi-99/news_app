@@ -29,4 +29,6 @@ class HomeProvider extends ChangeNotifier {
   void disposeTabController() {
     _tabController.dispose();
   }
+
+  bool get showDropdownInAppBar => _selectedTabIndex == 1;
 }
