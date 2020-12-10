@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/screens/web_view_screen/provider/web_view_provider.dart';
-import 'package:news_app/screens/web_view_screen/web_view_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../global/resources/colors.dart';
@@ -8,6 +6,7 @@ import '../../global/size_config.dart';
 import '../../provider/article_provider.dart';
 import '../../shared/button_widget.dart';
 import '../../shared/custom_network_image.dart';
+import '../web_view_screen/web_view_screen.dart';
 import 'widgets/author_and_time_details.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
@@ -80,9 +79,12 @@ class ArticleDetailScreen extends StatelessWidget {
               .bodyText1
               .copyWith(fontWeight: FontWeight.w600),
         ),
-        leading: Icon(
-          Icons.arrow_back_ios,
-          color: KBlackColor,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: KBlackColor,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       );
 }

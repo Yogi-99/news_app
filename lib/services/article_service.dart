@@ -15,6 +15,11 @@ class ArticleService {
           .map((e) => Article.fromJson(e))
           .toList());
     } on DioError catch (dioError) {
+      if (dioError.response.statusCode == 429 &&
+          dioError.response.data['code'] == 'rateLimited') {
+        return CustomResponse.error(
+            'You have made too many requests, try after 12 hours.');
+      }
       return CustomResponse.error(dioError.message);
     } catch (e) {
       return CustomResponse.error('Something went wrong');
@@ -31,6 +36,11 @@ class ArticleService {
           .map((e) => Article.fromJson(e))
           .toList());
     } on DioError catch (dioError) {
+      if (dioError.response.statusCode == 429 &&
+          dioError.response.data['code'] == 'rateLimited') {
+        return CustomResponse.error(
+            'You have made too many requests, try after 12 hours.');
+      }
       return CustomResponse.error(dioError.message);
     } catch (e) {
       return CustomResponse.error('Something went wrong');

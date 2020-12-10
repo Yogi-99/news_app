@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:news_app/global/ui_state.dart';
+import 'package:news_app/shared/loader/show_progress_utility.dart';
+import 'package:news_app/shared/no_article_available.dart';
 import 'package:provider/provider.dart';
 
 import '../../global/resources/colors.dart';
@@ -48,7 +51,15 @@ class _HomeScreenState extends State<HomeScreen>
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) =>
               [_sliverAppBar(innerBoxIsScrolled, homeProvider)],
-          body: _tabBarView(homeProvider),
+          body: Stack(
+            children: [
+              _tabBarView(homeProvider),
+              ShowProgressUtility.showProgressBar(
+                Provider.of<ArticleProvider>(context).uiState ==
+                    UiState.loading,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -108,26 +119,30 @@ class _HomeScreenState extends State<HomeScreen>
   _topHeadlines(ArticleProvider articleProvider) => Padding(
         padding:
             EdgeInsets.symmetric(horizontal: SizeConfig.widthMultiplier * 2),
-        child: ListView.builder(
-          itemCount: articleProvider.topHeadlineArticles.length,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            Article _article = articleProvider.topHeadlineArticles[index];
-            return ArticleTile(article: _article);
-          },
-        ),
+        child: articleProvider.noArticleInTopHeadings
+            ? NoArticleAvailable()
+            : ListView.builder(
+                itemCount: articleProvider.topHeadlineArticles.length,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  Article _article = articleProvider.topHeadlineArticles[index];
+                  return ArticleTile(article: _article);
+                },
+              ),
       );
 
   _explore(ArticleProvider articleProvider) => Padding(
         padding:
             EdgeInsets.symmetric(horizontal: SizeConfig.widthMultiplier * 2),
-        child: ListView.builder(
-          itemCount: articleProvider.exploreArticles.length,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            Article _article = articleProvider.exploreArticles[index];
-            return ArticleTile(article: _article);
-          },
-        ),
+        child: articleProvider.noArticlesInExplore
+            ? NoArticleAvailable()
+            : ListView.builder(
+                itemCount: articleProvider.exploreArticles.length,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  Article _article = articleProvider.exploreArticles[index];
+                  return ArticleTile(article: _article);
+                },
+              ),
       );
 }

@@ -31,9 +31,10 @@ class MyApp extends StatelessWidget {
             child: MaterialApp(
               title: 'News App',
               theme: ThemeData.light().copyWith(
-                  textTheme: kTextTheme,
-                  appBarTheme: KAppBarTheme,
-                  scaffoldBackgroundColor: KWhiteColor),
+                textTheme: kTextTheme,
+                appBarTheme: KAppBarTheme,
+                scaffoldBackgroundColor: KWhiteColor,
+              ),
               debugShowCheckedModeBanner: false,
               onGenerateRoute: RouteGenerator.generateRoute,
               initialRoute: HomeScreen.id,

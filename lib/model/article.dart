@@ -66,7 +66,7 @@ class Article {
       title: map['title'],
       description: map['description'],
       url: map['url'],
-      urlToImage: map['urlToImage'],
+      urlToImage: map['urlToImage'] ?? '',
       publishedAt: map['publishedAt'],
       content: map['content'],
       source: Source.fromJson(map['source']),

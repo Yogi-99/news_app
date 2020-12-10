@@ -70,7 +70,7 @@ class ArticleProvider extends ChangeNotifier {
 
     if (response.status == Status.ERROR) {
       _changeUiStateToIdle();
-      ShowMessage.show(response.message);
+      // ShowMessage.show(response.message);
       return;
     }
 
@@ -84,6 +84,7 @@ class ArticleProvider extends ChangeNotifier {
   List<Source> _sources;
   List<Source> get sources => _sources ?? [];
   void setSources(List<Source> values) {
+    _setExploreArticles(null);
     _sources = values;
     notifyListeners();
   }
@@ -100,10 +101,7 @@ class ArticleProvider extends ChangeNotifier {
     CustomResponse<List<Source>> response =
         await _sourceService.getAllSources();
 
-    if (response.status == Status.ERROR) {
-      ShowMessage.show(response.message);
-      return;
-    }
+    if (response.status == Status.ERROR) return;
 
     setSources(response.data);
     selectSource(sources.first);
@@ -171,4 +169,10 @@ class ArticleProvider extends ChangeNotifier {
     _uiState = UiState.idle;
     notifyListeners();
   }
+
+  bool get noArticleInTopHeadings =>
+      uiState == UiState.idle && topHeadlineArticles.length == 0;
+
+  bool get noArticlesInExplore =>
+      uiState == UiState.idle && exploreArticles.length == 0;
 }
